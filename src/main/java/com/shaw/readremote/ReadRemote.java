@@ -6,9 +6,10 @@ import java.nio.charset.Charset;
 import ch.ethz.ssh2.Connection;
 import ch.ethz.ssh2.Session;
 import ch.ethz.ssh2.StreamGobbler;
+import lombok.extern.slf4j.Slf4j;
 
 
-
+@Slf4j
 public class ReadRemote {
     public static void main(String[] args) {
         String remotePath = "/logs/note/note_info.log";//远程文件地址
@@ -40,9 +41,9 @@ public class ReadRemote {
             // 使用用户名和密码校验
             boolean isconn = conn.authenticateWithPassword(username, password);
             if (!isconn) {
-                System.out.println("用户名称或者是密码不正确");
+                log.info("用户名称或者是密码不正确");
             } else {
-                System.out.println("服务器连接成功.");
+                log.info("服务器连接成功.");
                 return conn;
             }
         } catch (Exception e) {
