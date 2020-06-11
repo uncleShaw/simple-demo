@@ -11,34 +11,28 @@ import java.io.FileInputStream;
 import java.util.*;
 
 /**
- * * @Description : TODO导入excel
- * <p>
- * * @date : Mar 31, 2018 5:17:14 PM
- * <p>
+ * @Description: Excel文件内容对比
+ * @auther: shaw
+ * @date: 2020/6/11 18:48
  */
-
 public class ExcelImport {
-
+    
     public static void main(String args[]) {
-
+        
         ExcelImport excelImport = new ExcelImport();
-
+        
         try {
-
+            
             excelImport.importExcelAction();
-
+            
         } catch (Exception e) {
-
-// TODO Auto-generated catch block
-
             e.printStackTrace();
-
         }
-
+        
     }
-
-//导入Excel数据
-
+    
+    
+    //导入Excel数据
     public void importExcelAction() throws Exception {
         Map<String, List<String>> stringListMap = new HashMap<>();
         //文件路径
@@ -52,7 +46,7 @@ public class ExcelImport {
             Workbook wb = new HSSFWorkbook(fileInputStream);
             Sheet sheetAt = wb.getSheetAt(0);
             Row row = sheetAt.getRow(0);
-
+            
             List<String> stringList = new ArrayList<>();
             String fileName = file.getName();
             for (int cellNum = row.getFirstCellNum(), lcell = row.getLastCellNum(); cellNum <= lcell; cellNum++) {
@@ -71,7 +65,7 @@ public class ExcelImport {
             Workbook wb = new HSSFWorkbook(fileInputStream);
             Sheet sheetAt = wb.getSheetAt(0);
             Row row = sheetAt.getRow(0);
-
+            
             List<String> stringList = new ArrayList<>();
             String fileName = file.getName();
             for (int cellNum = row.getFirstCellNum(), lcell = row.getLastCellNum(); cellNum <= lcell; cellNum++) {
@@ -100,12 +94,9 @@ public class ExcelImport {
             }
             fileInputStream.close();
         }
-
-
-
-
-
+        
+        
     }
-
+    
 }
 
