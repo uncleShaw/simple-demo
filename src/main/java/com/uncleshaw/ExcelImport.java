@@ -1,4 +1,4 @@
-package org.example;
+package com.uncleshaw;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -95,6 +96,48 @@ public class ExcelImport {
             fileInputStream.close();
         }
         
+    }
+    
+    /**
+     * @Description: 获取指定行的数据，过滤空格
+     * @param: [filePath, rowNum] 文件地址、指定行
+     * @return: java.util.List<java.lang.String>
+     * @auther: shaw
+     * @date: 2020/6/11 21:42
+     */
+    public List<String> getExcelRow(String filePath, int rowNum) throws Exception {
+        List<String> list = new ArrayList<>();
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileNotFoundException("找不到文件！");
+        }
+        FileInputStream fileInputStream = new FileInputStream(file);
+        Workbook wb = new HSSFWorkbook(fileInputStream);
+        Sheet sheet = wb.getSheetAt(0);
+        Row row = sheet.getRow(rowNum);
+        for (int cellNum = row.getFirstCellNum(), lcell = row.getLastCellNum(); cellNum <= lcell; cellNum++) {
+            Cell rowCell = row.getCell(cellNum);
+            if (!(rowCell == null || rowCell.toString().equals(""))) {
+                list.add(rowCell.toString());
+            }
+        }
+        fileInputStream.close();
+        return list;
+    }
+    
+    
+    /**
+     * @Description: 原文件指定行的单元格数据是否是目标文件指定行的子集，忽略空格
+     * @param: [sourceFilePath, targetFilePath, rowNum] 原文件、目标文件、指定行
+     * @return: java.util.List<java.lang.String> 原返回文件中的指定行的差异数据
+     * @auther: shaw
+     * @date: 2020/6/11 22:05
+     */
+    public List<String> compareExcelRow(String sourceFilePath, String targetFilePath, int rowNum) throws Exception {
+        List<String> sourceRow = getExcelRow(sourceFilePath, rowNum);
+        List<String> targetRow = getExcelRow(targetFilePath, rowNum);
+        sourceRow.retainAll(targetRow);
+        return sourceRow;
         
     }
     
