@@ -1,0 +1,53 @@
+server:
+  # 服务器端口号
+  port: 1216
+spring:
+  # 配置数据库连接池
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/527?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      # 最小连接
+      minimum-idle: 5
+      # 最大连接
+      maximum-pool-size: 15
+      # 自动提交
+      auto-commit: true
+      # 最大空闲时间
+      idle-timeout: 30000
+      # 连接池名称
+      pool-name: DatebookHikariCP
+      # 最大生命周期
+      max-lifetime: 900000
+      # 连接超时时间
+      connection-timeout: 15000
+      # 心跳检测
+      connection-test-query: select 1
+
+# mybatis_plus
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 打印日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # xml路径
+  mapper-locations: classpath:mybatis/*Mapper.xml
+  #type-aliases-package: net.chinanets.project.vo
+
+  global-config:
+  #全局策略勿动，否则造成数据覆盖！Do not modify the field-strategy！
+  #0: "忽略判断", 所有字段都更新和插入。1: "非 NULL 判断", 只更新和插入非NULL值。2: "非空判断", 只更新和插入非NULL值且非空字符串
+    field-strategy: 1
+
+
+
+# 分页配置
+pagehelper:
+  supportMethodsArguments: true
+  reasonable: false
+  helperDialect: mysql
+  params: count=countSql
+
